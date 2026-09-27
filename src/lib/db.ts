@@ -1,0 +1,45 @@
+import mongoose from "mongoose";
+import dns from "dns";
+
+// Fix for "querySrv ECONNREFUSED" - common with Indian ISPs (Jio/Airtel)
+// whose default DNS servers don't resolve mongodb+srv SRV records properly.
+// Forcing Google's public DNS fixes it at the app level, no system settings needed.
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
+
+const MONGODB_URI = process.env.MONGODB_URI as string;
+
+if (!MONGODB_URI) {
+  console.warn("MONGODB_URI is not set. Set it in .env.local before hitting any DB route.");
+}
+
+type MongooseCache = {
+  conn: typeof mongoose | null;
+  promise: Promise<typeof mongoose> | null;
+};
+
+declare global {
+  // eslint-disable-next-line no-var
+  var _mongooseCache: MongooseCache | undefined;
+}
+
+const cached: MongooseCache = global._mongooseCache ?? { conn: null, promise: null };
+global._mongooseCache = cached;
+
+export async function connectDB() {
+  if (cached.conn) return cached.conn;
+
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(MONGODB_URI, {
+      bufferCommands: false,
+    });
+  }
+
+  try {
+    cached.conn = await cached.promise;
+  } catch (err) {
+    cached.promise = null;
+    throw err;
+  }
+
+  return cached.conn;
+}

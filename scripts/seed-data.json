@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Rose Gold Infinity Pendant",
+    "slug": "rose-gold-infinity-pendant",
+    "description": "A hand-finished infinity pendant in rose gold vermeil, set with a single cubic zirconia.",
+    "price": 2499,
+    "discountPrice": 1999,
+    "images": ["https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=800"],
+    "category": "jewellery",
+    "occasions": ["anniversary", "love"],
+    "rating": 4.7,
+    "reviewCount": 128,
+    "stock": 60,
+    "isBestSeller": true,
+    "isFeatured": true,
+    "personalizationAvailable": true
+  },
+  {
+    "title": "Signature Chocolate & Wine Hamper",
+    "slug": "signature-chocolate-wine-hamper",
+    "description": "Belgian chocolates, a bottle of non-alcoholic sparkling grape, and roasted almonds in a woven basket.",
+    "price": 3499,
+    "images": ["https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=800"],
+    "category": "hampers",
+    "occasions": ["congratulations", "festival"],
+    "rating": 4.8,
+    "reviewCount": 96,
+    "stock": 40,
+    "isBestSeller": true,
+    "isFeatured": true
+  }
+]
