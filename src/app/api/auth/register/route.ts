@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
 
     const existing = await User.findOne({ email });
     if (existing) {
-      return NextResponse.json({ error: "An account with this email already exists" }, { status: 409 });
+      return NextResponse.json({ error: "An account with this email already exist" }, { status: 409 });
     }
 
     const hashed = await hashPassword(password);
