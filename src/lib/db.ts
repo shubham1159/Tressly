@@ -6,7 +6,13 @@ import dns from "dns";
 // Forcing Google's public DNS fixes it at the app level, no system settings needed.
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
-const MONGODB_URI = process.env.MONGODB_URI as string;
+// Tolerate common copy-paste mistakes in the env value: surrounding spaces/newlines,
+// wrapping quotes, or the key name ("MONGODB_URI=") pasted into the value.
+const MONGODB_URI = (process.env.MONGODB_URI ?? "")
+  .trim()
+  .replace(/^MONGODB_URI\s*=\s*/i, "")
+  .replace(/^["']+|["']+$/g, "")
+  .trim();
 
 if (!MONGODB_URI) {
   console.warn("MONGODB_URI is not set. Set it in .env.local before hitting any DB route.");
