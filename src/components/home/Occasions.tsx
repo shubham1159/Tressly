@@ -2,10 +2,10 @@ import Link from "next/link";
 import Image from "next/image";
 
 const OCCASIONS = [
-  { label: "Everyday", slug: "everyday", image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600" },
-  { label: "Office", slug: "office", image: "https://images.unsplash.com/photo-1596993100471-c3905dafa78e?w=600" },
-  { label: "Party", slug: "party", image: "https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=600" },
-  { label: "Bridal", slug: "bridal", image: "https://images.unsplash.com/photo-1606312619070-d48b4c652a52?w=600" },
+  { label: "Everyday", slug: "everyday", image: "/images/everyday_.jpg" },
+  { label: "Office", slug: "office", image: "/images/office.webp" },
+  { label: "Party", slug: "party", image: "/images/party_.jpg" },
+  { label: "Bridal", slug: "bridal", image: "/images/wedding.jpg" },
 ];
 
 export default function Occasions() {

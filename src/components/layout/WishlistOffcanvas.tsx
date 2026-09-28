@@ -27,7 +27,7 @@ export default function WishlistOffcanvas({ open, onClose }: { open: boolean; on
   return (
     <div className="fixed inset-0 z-[60]">
       <button aria-label="Close wishlist" onClick={onClose} className="absolute inset-0 bg-ink/40 backdrop-blur-sm" />
-      <div className="absolute right-0 top-0 flex h-full w-full max-w-sm flex-col bg-ivory shadow-card">
+      <div className="absolute right-0 top-0 flex w-full max-w-sm flex-col bg-ivory shadow-card" style={{height:"100vh"}}>
         <div className="flex items-center justify-between border-b border-ink/10 px-5 py-4">
           <h2 className="font-display text-xl">Wishlist ({items.length})</h2>
           <button onClick={onClose} aria-label="Close" className="rounded-full p-2 hover:bg-ink/5">
