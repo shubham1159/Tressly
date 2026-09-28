@@ -34,6 +34,13 @@ global._mongooseCache = cached;
 export async function connectDB() {
   if (cached.conn) return cached.conn;
 
+  // TEMPORARY DEBUG: shows what Vercel actually received (no secrets revealed)
+  if (!/^mongodb(\+srv)?:\/\//.test(MONGODB_URI)) {
+    throw new Error(
+      `MONGODB_URI looks wrong: length=${MONGODB_URI.length}, firstCharCode=${MONGODB_URI.charCodeAt(0)}, mongodbAt=${MONGODB_URI.indexOf("mongodb")}, rawLength=${(process.env.MONGODB_URI ?? "").length}`
+    );
+  }
+
   if (!cached.promise) {
     cached.promise = mongoose.connect(MONGODB_URI, {
       bufferCommands: false,
