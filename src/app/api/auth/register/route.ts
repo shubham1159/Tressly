@@ -40,12 +40,7 @@ export async function POST(req: NextRequest) {
     console.error(err);
     const message = err instanceof Error ? err.message : "Unknown error";
     return NextResponse.json(
-      {
-        error:
-          process.env.NODE_ENV === "production"
-            ? "Something went wrong. Please try again."
-            : `Something went wrong: ${message}`,
-      },
+      { error: `Something went wrong: ${message}` },
       { status: 500 }
     );
   }
