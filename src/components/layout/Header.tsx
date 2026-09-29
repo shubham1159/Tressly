@@ -83,7 +83,7 @@ export default function Header() {
               <X size={22} />
             </button>
           </div>
-          <nav className="container-page flex flex-col gap-1 pt-4">
+          <nav className="container-page flex  bg-ivory flex-col gap-1 pt-4" >
             {NAV.map((n) => (
               <Link
                 key={n.href}
