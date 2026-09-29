@@ -32,6 +32,7 @@ export default function CheckoutPage() {
     pincode: "",
   });
   const [placing, setPlacing] = useState(false);
+  const [method, setMethod] = useState<"razorpay" | "cod">("razorpay");
 
   if (!authLoading && !user) {
     return (
@@ -59,8 +60,41 @@ export default function CheckoutPage() {
     setAddress((prev) => ({ ...prev, [key]: value }));
   }
 
+  async function placeCod() {
+    setPlacing(true);
+    try {
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: items.map((i) => ({
+            productId: i.productId,
+            slug: i.slug,
+            quantity: i.quantity,
+            isGift: i.isGift,
+            giftMessage: i.giftMessage,
+          })),
+          address,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.error || "Could not place order");
+        setPlacing(false);
+        return;
+      }
+      clearCart();
+      router.push(`/order/success?orderId=${data.orderId}&method=cod`);
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong. Please try again.");
+      setPlacing(false);
+    }
+  }
+
   async function handlePay(e: React.FormEvent) {
     e.preventDefault();
+    if (method === "cod") return placeCod();
     setPlacing(true);
     try {
       const createRes = await fetch("/api/razorpay/create-order", {
@@ -184,10 +218,30 @@ export default function CheckoutPage() {
             <Row label="Total" value={formatINR(totals.total)} bold />
           </dl>
 
+          <fieldset className="mt-6 space-y-2 text-sm">
+            <legend className="mb-2 font-medium">Payment method</legend>
+            <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-ink/15 px-3 py-2.5">
+              <input type="radio" name="method" checked={method === "razorpay"} onChange={() => setMethod("razorpay")} />
+              Pay online (UPI / Card / Netbanking)
+            </label>
+            <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-ink/15 px-3 py-2.5">
+              <input type="radio" name="method" checked={method === "cod"} onChange={() => setMethod("cod")} />
+              Cash on Delivery
+            </label>
+          </fieldset>
+
           <Button type="submit" form="checkout-form" disabled={placing} className="mt-6 w-full">
-            {placing ? "Opening payment…" : `Pay ${formatINR(totals.total)}`}
+            {placing
+              ? method === "cod"
+                ? "Placing order…"
+                : "Opening payment…"
+              : method === "cod"
+              ? `Place order (COD) · ${formatINR(totals.total)}`
+              : `Pay ${formatINR(totals.total)}`}
           </Button>
-          <p className="mt-3 text-center text-xs text-ink/40">Secure checkout via Razorpay</p>
+          <p className="mt-3 text-center text-xs text-ink/40">
+            {method === "cod" ? "Pay in cash when your order arrives" : "Secure checkout via Razorpay"}
+          </p>
         </div>
       </div>
     </>

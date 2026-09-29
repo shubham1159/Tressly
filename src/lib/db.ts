@@ -4,7 +4,9 @@ import dns from "dns";
 // Fix for "querySrv ECONNREFUSED" - common with Indian ISPs (Jio/Airtel)
 // whose default DNS servers don't resolve mongodb+srv SRV records properly.
 // Forcing Google's public DNS fixes it at the app level, no system settings needed.
-dns.setServers(["8.8.8.8", "8.8.4.4"]);
+if (process.env.NODE_ENV !== "production") {
+  dns.setServers(["8.8.8.8", "8.8.4.4"]);
+}
 
 // Tolerate common copy-paste mistakes in the env value: surrounding spaces/newlines,
 // wrapping quotes, or the key name ("MONGODB_URI=") pasted into the value.

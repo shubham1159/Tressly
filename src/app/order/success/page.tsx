@@ -2,13 +2,14 @@ import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 import Button from "@/components/ui/Button";
 
-export default function OrderSuccessPage({ searchParams }: { searchParams: { orderId?: string } }) {
+export default function OrderSuccessPage({ searchParams }: { searchParams: { orderId?: string; method?: string } }) {
   return (
     <div className="container-page flex flex-col items-center py-24 text-center">
       <CheckCircle2 className="text-sage" size={48} />
       <h1 className="mt-5 font-display text-3xl">Order confirmed</h1>
       <p className="mt-2 max-w-[46ch] text-ink/70">
-        Thank you — your order has been placed and a confirmation has been sent to your email.
+        Thank you — your order has been placed.
+        {searchParams.method === "cod" && " Please keep the cash ready, you will pay when it is delivered."}
         {searchParams.orderId && (
           <>
             {" "}

@@ -14,6 +14,7 @@ type OrderRow = {
 
 const STATUS_LABEL: Record<string, string> = {
   created: "Payment pending",
+  placed: "Placed (Cash on Delivery)",
   paid: "Confirmed",
   failed: "Payment failed",
   shipped: "Shipped",
